@@ -1,7 +1,7 @@
 import React from 'react';
 import { Niveau } from './Niveau';
 //Calculer les tentatives en fonction du niveau
-function calculerTentatives(debut, fin, niveau) {
+export function calculerTentatives(debut, fin, niveau) {
     let intervalle = fin - debut + 1;
     let tentatives = Math.log2(intervalle);
 
