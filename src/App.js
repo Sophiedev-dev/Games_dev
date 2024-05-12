@@ -1,41 +1,125 @@
-
+import React, { useRef, useState } from 'react';
 import './App.css'
-function App(){
+
+const GuessMyNumberGame = () => {
+
+  const VISIBLE ="";
+  const NONVISIBLE ="none";
+
+  const [infoMonitor, setInfoMonitor] = useState("Enter le  nombre  Mystere!....");
+  const [vueNombreMytere, setVueNombreMystere] = useState("?");
+  const [visibiliteForm, setVisibiliteForm] = useState(VISIBLE);
+  const [nombreDeTentative, setNombreDeTentative] = useState(8 - 1);
+  const [nombreMystere, setNombreMystere] = useState(Math.floor(Math.random() * (15) + 1))
+  const [nombreDessai, setNombreDessai] = useState(0)
+  
+  
+
+  // references
+  const inputNbMysteRef = useRef()
+
+
+
+  const handleValide = () =>{
+
+    
+
+    if(inputNbMysteRef.current.value === "")
+    { 
+      alert("Entrer un nombre valide!");
+      return
+    }
+
+    setNombreDessai(nombreDessai + 1); // incrementation du nombre dessai du joueur
+    
+    // recuperation du nombre contenu dans le formulaaire
+    let nb = parseInt(inputNbMysteRef.current.value);
+    
+
+    // controle du nombre entrer 
+    if(nb >  nombreMystere)
+    {
+      setInfoMonitor("Le nombre Mystere est INFERIEUR a " +  nb + "!");
+      
+    }
+    else if(nb < nombreMystere)
+    {
+      setInfoMonitor("Le nombre Mystere est SUPPERIEUR a " +  nb + "!");
+      
+    }
+    else if(nb === nombreMystere)
+    {
+      setInfoMonitor("FELICITATION VOUS AVEZ TROUVE LE NOMBRE MYSTERE EN "+ nombreDessai +" tentative!!!");
+      setVueNombreMystere(nombreMystere);
+      setVisibiliteForm(NONVISIBLE);
+      return;
+    }
+    
+    setNombreDeTentative(nombreDeTentative - 1); // decrementation du nombre de tentative 
+    console.log(nombreMystere);
+
+    // verification si le nombre de tentative est nulle
+    if(nombreDeTentative <= 0)
+    {
+      setInfoMonitor("DESOLEE VOUS N'AVEZ PAS TROUVE LE NOMBRE MYSTERE ATTEND!!!");
+      setVueNombreMystere(nombreMystere);
+      setVisibiliteForm(NONVISIBLE);
+    }
+
+
+    // alert(inputNbMysteRef.current.value);
+    inputNbMysteRef.current.value = "";
+    
+  }
+
+
+
+  function monitor()
+  {
     return(
-        <div class="global" className='container' style={{backgroundColor:'aliceBlue'  , border: '1px'}}>
-            <div className='container-fluid' style={{marginTop:'40px'}}>
-                <div className='container' style={{float:'left',width:'35%' ,backgroundColor:'red'}}>komol danie</div>
-                <div className='container' style={{float:'right',width:'30%' ,backgroundColor:'red' }}>score : 5 pts</div>
-                <div className='container' style={{float:'right',width:'35%' ,backgroundColor:'red' }}>level : easy</div>
-            </div>
+      <div className='monitor'>
+        <h1>Guess My Number Game</h1>
+        <div className='mystery-number'>{vueNombreMytere}</div>
+        <div className='phrase'>{infoMonitor}</div>
+      </div>
+    )
+  }
 
-            <br></br>
-
-            <div className='container-fluid' style={{marginTop:'25px'}} >
-                <center><h1>Guess My NUmber Game</h1></center>
-            </div>
-            
-            <center>
-                <div style={{backgroundColor:'red' , width:'15%', borderRadius:'6%'}}><h1>?</h1></div>
-                <h5>start guessing ....</h5>
-            </center>
-
-
-            <div className='container' >
-                <input type='dropDownList' style={{float:'left'}}></input>
-                <p style={{float:'right'}}>Hight score : 100</p>
-
-            </div>
-
-            <center><button className='btn btn-success' type='button' style={{backgroundColor:'red' , border: '1px' , marginBottom:'15px'}}>Check now</button></center>
+  function formulaire()
+  {
+    return (
+      <div className='formulaire' style={{display: visibiliteForm}}>
+        <div> 
+          <input type ="number" ref={inputNbMysteRef}/>
+          <span className='compteurNbEssaie'>{nombreDeTentative}</span>
         </div>
+        <div><button onClick={handleValide}>Valider</button></div>
+      </div>
+    )
     
-    
+  }
+
+  function score()
+   {
+    return (
+      <div className='score'>
+        <div>
+          <span>Score:12</span>
+          <span>High Score:1</span>
+        </div>
+      </div>
     );
-}
+   }
+  
+      
+    return (
+        <div className="game-container">
+          {monitor()}
+          {formulaire()}
+          {score()}
+          
+        </div>
+    );
+};
 
-
-
-
-
-export default App;
+export default GuessMyNumberGame;
