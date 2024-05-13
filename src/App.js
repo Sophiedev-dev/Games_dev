@@ -2,9 +2,13 @@ import React, { useState } from 'react';
 import './App.css'
 import { Niveau } from './Niveau';
 import {calculerTentatives} from "./level";
+import { Modal } from './Modal';
 
 const GuessMyNumberGame = () => {
-
+    const [isOpen, setIsModalOpen] = useState(false);
+    const openModal = () => {
+        setIsModalOpen(true);
+    }
     const [low] = useState(1);
     const [high] = useState(100);
     const [guess, setGuess] = useState(numberToGuess());
@@ -39,8 +43,10 @@ const GuessMyNumberGame = () => {
     };
 
     const reGame =()=>{
+
       setGuess(numberToGuess)
       setShow("?")
+
       setAttempts(calculerTentatives(low, high, Niveau.EASY))
     }
 
@@ -50,7 +56,7 @@ const GuessMyNumberGame = () => {
     return (
         <div className="game-container">
             <header>
-                <button className="play-again-btn" onClick={reGame}>Play Again</button>
+                <button className="play-again-btn" onClick={openModal}>Play Again</button>
                 <p>Player : {userName}</p>
                 <p>Between {low} and {high}</p>
             </header>
@@ -62,7 +68,7 @@ const GuessMyNumberGame = () => {
                 <p>{msg}</p>
                 <div className='but'>
                     <input type="number" placeholder='Entrez un nombre' id='guessedNumber'></input>
-                  <button onClick={handleResponse} >Guess</button>
+                  <button onClick={handleResponse}>Guess</button>
                 </div>
             </div>
             <footer>
