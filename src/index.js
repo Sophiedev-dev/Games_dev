@@ -11,30 +11,10 @@ let player ={
 }
 
 
-function playerConstructor (name , difficulti,password){
-    this.name = name;
-    this.difficulti = difficulti;
-    this.password = password;
-    localStorage.setItem(name, JSON.stringify(this));
-}
-
-function deletePlayer(name){
-    localStorage.removeItem(name);
-}
-function calculScore(tentative , tentatives){
-
-    if(tentative <= (tentatives *25)/100)
-        return 5;
-
-    else if(tentative > (tentatives *25)/100    &&  tentative <= (tentatives *50)/100)
-        return 4;
-
-    else if(tentative > (tentatives *50)/100    &&  tentative <= (tentatives *75)/100)
-        return 2;
-
-    else if(tentative > (tentatives *75)/100    &&  tentative <= tentatives )
-        return 1;
+function calculScore(tentative ){
+        return tentative;
 }
 
 
+export default calculScore;
 render(<App /> ,document.getElementById('root'))//ceci insere le rendu dans la balise div de id="root"

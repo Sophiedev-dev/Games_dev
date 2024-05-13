@@ -1,11 +1,18 @@
 
+import { calculateNewValue } from '@testing-library/user-event/dist/utils';
+import calculScore from './index.js'
 import './App.css'
+
+
+//sessionStorage.setItem = Math.floor(Math.random() * 100) -100;
 function App(){
+
     return(
+        
         <div class="global" className='container' style={{backgroundColor:'aliceBlue'  , border: '1px'}}>
             <div className='container-fluid' style={{marginTop:'40px'}}>
-                <div className='container' style={{float:'left',width:'35%' ,backgroundColor:'red'}}>komol danie</div>
-                <div className='container' style={{float:'right',width:'30%' ,backgroundColor:'red' }}>score : 5 pts</div>
+                <div className='container' style={{float:'left',width:'35%' ,backgroundColor:'red'}}>guess the number</div>
+                <div className='container' style={{float:'right',width:'30%' ,backgroundColor:'red' }}>score : {calculScore(7)} pts</div>
                 <div className='container' style={{float:'right',width:'35%' ,backgroundColor:'red' }}>level : easy</div>
             </div>
 
@@ -22,7 +29,7 @@ function App(){
 
 
             <div className='container' >
-                <input type='dropDownList' style={{float:'left'}}></input>
+                <input type='number' placeholder='0' style={{float:'left'}}></input>
                 <p style={{float:'right'}}>Hight score : 100</p>
 
             </div>
