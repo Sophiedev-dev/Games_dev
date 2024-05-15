@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import './Classement.css'
 
 const Classement = () => {
   const [joueurs, setJoueurs] = useState([]);
@@ -14,10 +15,9 @@ const Classement = () => {
     joueursArray.sort((a, b) => b.score - a.score);
     setJoueurs(joueursArray);
   }, []);
-
   return (
-    <div>
-      <h1>Classement des joueurs</h1>
+    <div className='classement-content'>
+      <h2>Classement des joueurs</h2>
       <table>
         <thead>
           <tr>

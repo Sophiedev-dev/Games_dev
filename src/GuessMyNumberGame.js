@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { calculerTentatives } from "./level";
 import { Modal } from './Modal';
 import { recupererJoueur } from './storeScore';
+import Classement from './Classement';
 
 export const GuessMyNumberGame = ({player, intervalle, niveau}) => {
     const [low, setLow] = useState(intervalle.min);
@@ -13,23 +14,28 @@ export const GuessMyNumberGame = ({player, intervalle, niveau}) => {
     const [msg, setMsg] = useState("Guess the number ... ");
     const [show, setShow] = useState("?");
     const [bestScore, setBestScore] = useState(0);
+    const [openClassement, setOpenClassement] = useState(false);
+
     console.log(player.name);
 
     const [isOpen, setIsOpen] = useState(false);
     const handleResponse = () => {
         let userGuessedNumber = document.getElementById("guessedNumber").value;
         document.getElementById("guessedNumber").value = '';
+
         if (attempts === 0) {
             setMsg("No more attemps left");
             setShow(guess);
         } else {
             // eslint-disable-next-line eqeqeq
             if (guess == userGuessedNumber) {
-                setMsg("You guessed the number");
+                setMsg("🤯️🤯️🤯️ You guessed the number 🤯️🤯️🤯️");
                 setShow(guess);
                 attempts === calculerTentatives(low, high, niveau) ?
                     setBestScore(calculerTentatives(low, high, niveau) - attempts + 1) :
                     setBestScore(calculerTentatives(low, high, niveau  ) - attempts);
+                document.getElementById("btn-guess").setAttribute('disabled', 'true');
+
 
             } else if (userGuessedNumber > guess) {
                 setMsg(userGuessedNumber + " is Higher than the number to guess");
@@ -41,6 +47,9 @@ export const GuessMyNumberGame = ({player, intervalle, niveau}) => {
 
         }
     };
+    const handleBestScoreList = () => {
+        setOpenClassement(!openClassement)
+    }
 
     const reGame = () => {
         setIsOpen(true);
@@ -48,7 +57,6 @@ export const GuessMyNumberGame = ({player, intervalle, niveau}) => {
         setShow("?");
 
     };
-
 
 
     function numberToGuess(min, max) {
@@ -59,7 +67,7 @@ export const GuessMyNumberGame = ({player, intervalle, niveau}) => {
     return (
         <div className="game-container">
             <header>
-                <button className="play-again-btn" onClick={reGame}>Play Again</button>
+                <button className="play-again-btn" onClick={reGame}>Restart</button>
                 <p>Level : {level}</p>
                 <p>Player : {player.name}</p>
                 <p>Between {low} and {high}</p>
@@ -72,12 +80,12 @@ export const GuessMyNumberGame = ({player, intervalle, niveau}) => {
                 <p>{msg}</p>
                 <div className='but'>
                     <input type="number" placeholder='Entrez un nombre' id='guessedNumber'></input>
-                    <button onClick={handleResponse}>Guess</button>
+                    <button onClick={handleResponse} id='btn-guess'>Guess</button>
                 </div>
             </div>
             <footer>
                 <p>Attemps: <span>{attempts}</span></p>
-                <p>Best Score: <span>{player.score}</span></p>
+                <p><button className="play-again-btn" onClick={handleBestScoreList}>Best Score: <span>{player.score}</span></button></p>
             </footer>
              {isOpen && (
                 <Modal
@@ -89,7 +97,11 @@ export const GuessMyNumberGame = ({player, intervalle, niveau}) => {
                     max={high}
                     setMin={setLow}
                     setmax={setHigh}
-                    />
+                />
+            )}
+
+            {openClassement && (
+                <Classement/>
             )}
         </div>
     );
