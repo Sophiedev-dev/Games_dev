@@ -1,20 +1,25 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import { calculerTentatives } from "./level";
+import { Modal } from './Modal';
 
 export const GuessMyNumberGame = ({pseudo, intervalle, niveau}) => {
 
-    const [low] = useState(intervalle.min);
-    const [high] = useState(intervalle.max);
+    const [low, setLow] = useState(intervalle.min);
+    const [high, setHigh] = useState(intervalle.max);
+    const [level, setLevel] = useState(niveau);
     const [guess, setGuess] = useState(numberToGuess(parseInt(low), parseInt(high)));
-    const [attempts, setAttempts] = useState(calculerTentatives(low, high, niveau));
+    const [attempts, setAttempts] = useState(calculerTentatives(low, high, level));
     const [msg, setMsg] = useState("Guess the number ... ");
     const [show, setShow] = useState("?");
     const [bestScore, setBestScore] = useState(0);
     const [userName] = useState(pseudo);
 
+    const [isOpen, setIsOpen] = useState(false);
+
     const handleResponse = () => {
         let userGuessedNumber = document.getElementById("guessedNumber").value;
+        document.getElementById("guessedNumber").value = '';
         if (attempts === 0) {
             setMsg("No more attemps left");
             setShow(guess);
@@ -39,11 +44,10 @@ export const GuessMyNumberGame = ({pseudo, intervalle, niveau}) => {
     };
 
     const reGame = () => {
-
+        setIsOpen(true);
         setGuess(numberToGuess(parseInt(low), parseInt(high)));
         setShow("?");
-        alert(guess)
-        setAttempts(calculerTentatives(low, high, niveau));
+
     };
 
 
@@ -57,7 +61,7 @@ export const GuessMyNumberGame = ({pseudo, intervalle, niveau}) => {
         <div className="game-container">
             <header>
                 <button className="play-again-btn" onClick={reGame}>Play Again</button>
-                <p>Level : {niveau}</p>
+                <p>Level : {level}</p>
                 <p>Player : {userName}</p>
                 <p>Between {low} and {high}</p>
             </header>
@@ -76,7 +80,18 @@ export const GuessMyNumberGame = ({pseudo, intervalle, niveau}) => {
                 <p>Attemps: <span>{attempts}</span></p>
                 <p>Best Score: <span>{bestScore}</span></p>
             </footer>
-
+             {isOpen && (
+                <Modal
+                    toggleModal={() => {setIsOpen(false)}}
+                    niveau={level}
+                    onNiveauChange={setLevel}
+                    setAttempts={setAttempts}
+                    min={low}
+                    max={high}
+                    setMin={setLow}
+                    setmax={setHigh}
+                    />
+            )}
         </div>
     );
 };
