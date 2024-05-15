@@ -2,14 +2,14 @@ import './App.css'
 import './LoginPage.css'
 import LoginPage from "./LoginPage"
 import { GuessMyNumberGame } from './GuessMyNumberGame';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 const App = () => {
     const [player, setPlayer] = useState({
         name :null,
         difficulti:null,
         //password: null,
-        bestScore :0,
+        score :100000000000000000000000000,
     })
 
     const [pseudo, setPseudo] = useState('');
@@ -36,7 +36,7 @@ const App = () => {
             name: pseudo,
             difficulti: niveau
         })
-        localStorage.setItem(pseudo, JSON.stringify({name: pseudo, difficulti: niveau, score: 0}));
+        localStorage.setItem(pseudo, JSON.stringify({name: pseudo, difficulti: niveau, score: player.score}));
         setIsLoggedIn(true);
     };
 

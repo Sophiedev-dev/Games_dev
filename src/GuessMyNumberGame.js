@@ -6,17 +6,19 @@ import { recupererJoueur } from './storeScore';
 import Classement from './Classement';
 
 export const GuessMyNumberGame = ({player, intervalle, niveau, setPlayer}) => {
+
     const [low, setLow] = useState(intervalle.min);
     const [high, setHigh] = useState(intervalle.max);
     const [level, setLevel] = useState(niveau);
+    const nbattemps = calculerTentatives(low, high, level)
     const [guess, setGuess] = useState(numberToGuess(parseInt(low), parseInt(high)));
-    const [attempts, setAttempts] = useState(calculerTentatives(low, high, level));
+    const [attempts, setAttempts] = useState(nbattemps);
     const [msg, setMsg] = useState("Guess the number ... ");
     const [show, setShow] = useState("?");
     const [bestScore, setBestScore] = useState(0);
     const [openClassement, setOpenClassement] = useState(false);
 
-    console.log(player.name);
+
 
     const [isOpen, setIsOpen] = useState(false);
     const handleResponse = () => {
@@ -29,19 +31,23 @@ export const GuessMyNumberGame = ({player, intervalle, niveau, setPlayer}) => {
         } else {
             // eslint-disable-next-line eqeqeq
             if (guess == userGuessedNumber) {
+
                 setMsg("🤯️🤯️🤯️ You guessed the number 🤯️🤯️🤯️");
                 setShow(guess);
-                attempts === calculerTentatives(low, high, niveau) ?
-                    setBestScore(calculerTentatives(low, high, niveau) - attempts + 1) :
-                    setBestScore(calculerTentatives(low, high, niveau  ) - attempts);
+                let newAttempts = attempts - 1;
+                setAttempts(newAttempts);
 
+                console.log("Score: "+(nbattemps-newAttempts)+"\nattempt: "+newAttempts);
+                let sc = nbattemps - newAttempts;
                 document.getElementById("btn-guess").setAttribute('disabled', 'true');
-                let score = bestScore < player.score ? bestScore:player.score
+                let score = sc < (player.score > 0 ? player.score : 10000000) ? sc:player.score
+                setBestScore(score);
                 setPlayer({
                     ...player,
                     difficulti: niveau,
-                    score: score
+                    score: sc
                 })
+
                 localStorage.setItem(player.name, JSON.stringify({name: player.name, difficulti: level, score: score}));
 
             } else if (userGuessedNumber > guess) {
@@ -74,6 +80,7 @@ export const GuessMyNumberGame = ({player, intervalle, niveau, setPlayer}) => {
         const maxFloored = Math.floor(max);
         return Math.floor(Math.random() * (maxFloored - minCeiled) + minCeiled);
     }
+    console.log(guess);
     return (
         <div className="game-container">
             <header>
