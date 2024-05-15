@@ -57,6 +57,7 @@ const App = () => {
                     player={player}
                     intervalle={intervalle}
                     niveau={niveau}
+                    setPlayer={setPlayer}
                 />
             )}
         </div>
