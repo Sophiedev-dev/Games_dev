@@ -1,12 +1,12 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
-import { Niveau } from './Niveau';
 import { calculerTentatives } from "./level";
 
 export const GuessMyNumberGame = ({pseudo, intervalle, niveau}) => {
 
     const [low] = useState(intervalle.min);
     const [high] = useState(intervalle.max);
-    const [guess, setGuess] = useState(numberToGuess());
+    const [guess, setGuess] = useState(numberToGuess(parseInt(low), parseInt(high)));
     const [attempts, setAttempts] = useState(calculerTentatives(low, high, niveau));
     const [msg, setMsg] = useState("Guess the number ... ");
     const [show, setShow] = useState("?");
@@ -19,6 +19,7 @@ export const GuessMyNumberGame = ({pseudo, intervalle, niveau}) => {
             setMsg("No more attemps left");
             setShow(guess);
         } else {
+            // eslint-disable-next-line eqeqeq
             if (guess == userGuessedNumber) {
                 setMsg("You guessed the number");
                 setShow(guess);
@@ -39,14 +40,18 @@ export const GuessMyNumberGame = ({pseudo, intervalle, niveau}) => {
 
     const reGame = () => {
 
-        setGuess(numberToGuess);
+        setGuess(numberToGuess(parseInt(low), parseInt(high)));
         setShow("?");
-
+        alert(guess)
         setAttempts(calculerTentatives(low, high, niveau));
     };
 
-    function numberToGuess() {
-        return Math.floor(Math.random() * (high - low) + 1);
+
+
+    function numberToGuess(min, max) {
+        const minCeiled = Math.ceil(min);
+        const maxFloored = Math.floor(max);
+        return Math.floor(Math.random() * (maxFloored - minCeiled) + minCeiled);
     }
     return (
         <div className="game-container">
@@ -71,6 +76,7 @@ export const GuessMyNumberGame = ({pseudo, intervalle, niveau}) => {
                 <p>Attemps: <span>{attempts}</span></p>
                 <p>Best Score: <span>{bestScore}</span></p>
             </footer>
+
         </div>
     );
 };
