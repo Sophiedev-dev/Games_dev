@@ -3,25 +3,12 @@ import React from 'react';
 import App from './App.js';
 
 
-let player ={
-    name :null,
-    difficulti:null,
-    password: null,
-    bestScore :0,
-}
 
 
-function playerConstructor (name , difficulti,password){
-    this.name = name;
-    this.difficulti = difficulti;
-    this.password = password;
-    localStorage.setItem(name, JSON.stringify(this));
-}
 
-function deletePlayer(name){
-    localStorage.removeItem(name);
-}
-function calculScore(tentative , tentatives){
+
+
+/*function calculScore(tentative , tentatives){
 
     if(tentative <= (tentatives *25)/100)
         return 5;
@@ -34,7 +21,7 @@ function calculScore(tentative , tentatives){
 
     else if(tentative > (tentatives *75)/100    &&  tentative <= tentatives )
         return 1;
-}
+}*/
 
 
 render(<App /> ,document.getElementById('root'))//ceci insere le rendu dans la balise div de id="root"
