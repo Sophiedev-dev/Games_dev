@@ -2,9 +2,9 @@
 import React, { useState } from 'react';
 import { calculerTentatives } from "./level";
 import { Modal } from './Modal';
+import { recupererJoueur } from './storeScore';
 
-export const GuessMyNumberGame = ({pseudo, intervalle, niveau}) => {
-
+export const GuessMyNumberGame = ({player, intervalle, niveau}) => {
     const [low, setLow] = useState(intervalle.min);
     const [high, setHigh] = useState(intervalle.max);
     const [level, setLevel] = useState(niveau);
@@ -13,10 +13,9 @@ export const GuessMyNumberGame = ({pseudo, intervalle, niveau}) => {
     const [msg, setMsg] = useState("Guess the number ... ");
     const [show, setShow] = useState("?");
     const [bestScore, setBestScore] = useState(0);
-    const [userName] = useState(pseudo);
+    console.log(player.name);
 
     const [isOpen, setIsOpen] = useState(false);
-
     const handleResponse = () => {
         let userGuessedNumber = document.getElementById("guessedNumber").value;
         document.getElementById("guessedNumber").value = '';
@@ -62,7 +61,7 @@ export const GuessMyNumberGame = ({pseudo, intervalle, niveau}) => {
             <header>
                 <button className="play-again-btn" onClick={reGame}>Play Again</button>
                 <p>Level : {level}</p>
-                <p>Player : {userName}</p>
+                <p>Player : {player.name}</p>
                 <p>Between {low} and {high}</p>
             </header>
             <h1>Guess My number Game</h1>
@@ -78,7 +77,7 @@ export const GuessMyNumberGame = ({pseudo, intervalle, niveau}) => {
             </div>
             <footer>
                 <p>Attemps: <span>{attempts}</span></p>
-                <p>Best Score: <span>{bestScore}</span></p>
+                <p>Best Score: <span>{player.score}</span></p>
             </footer>
              {isOpen && (
                 <Modal
