@@ -2,7 +2,6 @@
 import React, { useState } from 'react';
 import { calculerTentatives } from "./level";
 import { Modal } from './Modal';
-import { recupererJoueur } from './storeScore';
 import Classement from './Classement';
 
 export const GuessMyNumberGame = ({player, intervalle, niveau, setPlayer}) => {
@@ -18,9 +17,8 @@ export const GuessMyNumberGame = ({player, intervalle, niveau, setPlayer}) => {
     const [bestScore, setBestScore] = useState(0);
     const [openClassement, setOpenClassement] = useState(false);
 
-
-
     const [isOpen, setIsOpen] = useState(false);
+    //Quand le user clique sur guess
     const handleResponse = () => {
         let userGuessedNumber = document.getElementById("guessedNumber").value;
         document.getElementById("guessedNumber").value = '';
@@ -39,7 +37,9 @@ export const GuessMyNumberGame = ({player, intervalle, niveau, setPlayer}) => {
 
                 console.log("Score: "+(nbattemps-newAttempts)+"\nattempt: "+newAttempts);
                 let sc = nbattemps - newAttempts;
+
                 document.getElementById("btn-guess").setAttribute('disabled', 'true');
+
                 let score = sc < (player.score > 0 ? player.score : 10000000) ? sc:player.score
                 setBestScore(score);
                 setPlayer({
@@ -50,6 +50,7 @@ export const GuessMyNumberGame = ({player, intervalle, niveau, setPlayer}) => {
 
                 localStorage.setItem(player.name, JSON.stringify({name: player.name, difficulti: level, score: score}));
 
+
             } else if (userGuessedNumber > guess) {
                 setMsg(userGuessedNumber + " is Higher than the number to guess");
                 setAttempts(attempts - 1);
@@ -57,8 +58,6 @@ export const GuessMyNumberGame = ({player, intervalle, niveau, setPlayer}) => {
                 setMsg(userGuessedNumber + " is Lower than the number to guess.");
                 setAttempts(attempts - 1);
             }
-
-
 
         }
     };
