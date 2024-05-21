@@ -16,9 +16,9 @@ export const Modal = ({toggleModal, niveau, onNiveauChange, min, max, setMin, se
         <div className="modal">
           <div className="overlay" onClick={toggleModal} />
           <div className="modal-content">
-            <h2>Play Agin</h2>
+            <h2>Play Again</h2>
             <p>Configuration de la partie</p>
-            <div>
+            <div className='RowContent'>
                 <label>Niveau:</label>
                 <select defaultValue={niveau} id='niveau'>
                     <option value="facile">Facile</option>
@@ -26,20 +26,15 @@ export const Modal = ({toggleModal, niveau, onNiveauChange, min, max, setMin, se
                     <option value="tres_difficile">Très difficile</option>
                 </select>
             </div>
-             <div>
-                <label>Intervalle de jeu:</label>
-                <input
-                    type="number"
-                    defaultValue={min}
-                    id='min'
-                />
-                <input
-                    type="number"
-                    defaultValue={max}
-                    id='max'
-                />
+             <div className='RowContent'>
+                <label>Intervalle :</label>
+                <div>
+                    <input type="number" defaultValue={min} id='min'/>
+                    <input type="number" defaultValue={max}  id='max' />
+                </div>
+
             </div>
-            <button onClick={startAGame}>
+            <button onClick={startAGame} className='play-button'>
               Play now
             </button>
           </div>
