@@ -12,7 +12,7 @@ const Classement = () => {
       joueursArray.push(value);
     }
     // Trier les joueurs par score en ordre décroissant
-    joueursArray.sort((a, b) => b.score - a.score);
+    joueursArray.sort((a, b) => a.score - b.score);
     setJoueurs(joueursArray);
   }, []);
   return (
